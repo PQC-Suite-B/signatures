@@ -25,7 +25,7 @@ exclude = [
 ]
 
 [features]
-default   = ["blake3"]   # default to SHAKE
+default   = ["shake"]   # default to SHAKE
 
 # Hash function selection (mutually exclusive)
 shake  = ["rand_core", "alloc", "pkcs8", "dep:sha3"]
