@@ -3,11 +3,8 @@ use sha3::{
     Shake128, Shake256,
     digest::{ExtendableOutput, XofReader},
 };
-use std::sync::Once;
 
 use crate::module_lattice::encode::ArraySize;
-
-static PRINT_ONCE: Once = Once::new();
 
 pub enum ShakeState<Shake: ExtendableOutput> {
     Absorbing(Shake),
@@ -16,9 +13,6 @@ pub enum ShakeState<Shake: ExtendableOutput> {
 
 impl<Shake: ExtendableOutput + Default> Default for ShakeState<Shake> {
     fn default() -> Self {
-        PRINT_ONCE.call_once(|| {
-            println!("\n ⍆ Using SHAKE hash function\n");
-        });
         Self::Absorbing(Shake::default())
     }
 }

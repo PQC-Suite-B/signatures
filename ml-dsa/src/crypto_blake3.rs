@@ -1,10 +1,6 @@
 use crate::module_lattice::encode::ArraySize;
 use blake3::{Hasher, OutputReader};
 use hybrid_array::Array;
-use std::sync::Once;
-
-#[allow(dead_code)]
-static PRINT_ONCE: Once = Once::new();
 
 // Heuristics (conservative and general)
 const TINY_SQUEEZE_MAX: usize = 128; // tiny requests threshold
@@ -45,7 +41,6 @@ pub enum Blake3State {
 
 impl Default for Blake3State {
     fn default() -> Self {
-        PRINT_ONCE.call_once(|| println!("\n ⍆ Using BLAKE3 hash function\n"));
         Blake3State::Absorbing {
             hasher: Hasher::new(),
             buf: Vec::with_capacity(1024),
