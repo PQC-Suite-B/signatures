@@ -7,7 +7,7 @@ described in FIPS-204 (final)
 version = "0.1.0-pre.2"
 edition = "2024"
 rust-version = "1.85"
-license = "Apache-2.0 OR MIT"
+license = "MIT"
 homepage = "https://github.com/RustCrypto/signatures/tree/master/ml-dsa"
 repository = "https://github.com/RustCrypto/signatures"
 readme = "README.md"
