@@ -1,4 +1,4 @@
-#![no_std]
+// #![no_std]
 #![doc = include_str!("../README.md")]
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/RustCrypto/meta/master/logo.svg",
@@ -32,7 +32,12 @@
 //! ```
 
 mod algebra;
+/// SHAKE hash function implementation
+#[cfg(feature = "shake")]
 mod crypto;
+/// BLAKE3 hash function implementation
+#[cfg(feature = "blake3")]
+mod crypto_blake3;
 mod encode;
 mod hint;
 mod ntt;
@@ -79,16 +84,19 @@ use pkcs8::{
 };
 
 use crate::algebra::{AlgebraExt, Elem, NttMatrix, NttVector, Truncate, Vector};
+// Import the selected hash implementation
+#[cfg(feature = "shake")]
 use crate::crypto::H;
+#[cfg(all(not(feature = "shake"), feature = "blake3"))]
+use crate::crypto_blake3::H;
 use crate::hint::Hint;
 use crate::ntt::{Ntt, NttInverse};
 use crate::param::{ParameterSet, QMinus1, SamplingSize, SpecQ};
 use crate::sampling::{expand_a, expand_mask, expand_s, sample_in_ball};
-use crate::util::B64;
 use core::fmt;
 
 pub use crate::param::{EncodedSignature, EncodedSigningKey, EncodedVerifyingKey, MlDsaParams};
-pub use crate::util::B32;
+pub use crate::util::{B32, B64};
 pub use signature::{self, Error, MultipartSigner, MultipartVerifier};
 
 /// An ML-DSA signature

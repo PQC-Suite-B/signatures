@@ -5,7 +5,11 @@ use hybrid_array::Array;
 use crate::algebra::{
     BaseField, Elem, Field, Int, NttMatrix, NttPolynomial, NttVector, Polynomial, Vector,
 };
+// Import the selected hash implementation
+#[cfg(feature = "shake")]
 use crate::crypto::{G, H};
+#[cfg(all(not(feature = "shake"), feature = "blake3"))]
+use crate::crypto_blake3::{G, H};
 use crate::param::{Eta, MaskSamplingSize};
 
 // Algorithm 13 BytesToBits

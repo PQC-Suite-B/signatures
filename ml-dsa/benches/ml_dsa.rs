@@ -1,6 +1,6 @@
 use criterion::{Criterion, criterion_group, criterion_main};
 use hybrid_array::{Array, ArraySize};
-use ml_dsa::{B32, KeyGen, MlDsa65, Signature, SigningKey, VerifyingKey};
+use ml_dsa::{B32, B64, KeyGen, MlDsa65, Signature, SigningKey, VerifyingKey};
 use rand::CryptoRng;
 
 pub fn rand<L: ArraySize, R: CryptoRng + ?Sized>(rng: &mut R) -> Array<u8, L> {
@@ -10,21 +10,40 @@ pub fn rand<L: ArraySize, R: CryptoRng + ?Sized>(rng: &mut R) -> Array<u8, L> {
 }
 
 fn criterion_benchmark(c: &mut Criterion) {
+    // CD: Removed RNG to make benchmarks deterministic
     let mut rng = rand::rng();
     let xi: B32 = rand(&mut rng);
-    let m: B32 = rand(&mut rng);
+    let m64: B64 = rand(&mut rng);
     let ctx: B32 = rand(&mut rng);
+
+    let m1m = vec![0u8; 1024 * 1024];
+    let m100m = vec![0u8; 100 * 1024 * 1024];
+
+    // ----- Fixed, deterministic inputs (no RNG) -----
+    /*
+    let mut xi: B32 = Array::default();
+    xi.as_mut_slice().fill(0x11);
+    let mut m32: B32 = Array::default();
+    m32.as_mut_slice().fill(0x22);
+    let mut m64: B64 = Array::default();
+    m64.as_mut_slice().fill(0x22);
+    let mut m25: B256 = Array::default();
+    m25.as_mut_slice().fill(0x22);
+    let mut ctx: B32 = Array::default();
+    ctx.as_mut_slice().fill(0x33);
+    */
 
     let kp = MlDsa65::key_gen_internal(&xi);
     let sk = kp.signing_key();
     let vk = kp.verifying_key();
-    let sig = sk.sign_deterministic(&m, &ctx).unwrap();
+    let sig = sk.sign_deterministic(&m64, &ctx).unwrap();
 
     let sk_bytes = sk.encode();
     let vk_bytes = vk.encode();
     let sig_bytes = sig.encode();
 
     // Key generation
+    /*
     c.bench_function("keygen", |b| {
         b.iter(|| {
             let kp = MlDsa65::key_gen_internal(&xi);
@@ -32,24 +51,38 @@ fn criterion_benchmark(c: &mut Criterion) {
             let _vk_bytes = kp.verifying_key().encode();
         })
     });
+    */
 
     // Signing
-    c.bench_function("sign", |b| {
+
+    c.bench_function("sign 64B", |b| {
         b.iter(|| {
             let sk = SigningKey::<MlDsa65>::decode(&sk_bytes);
-            let _sig = sk.sign_deterministic(&m, &ctx);
+            let _sig = sk.sign_randomized(&m64, &ctx, &mut rng);
+        })
+    });
+    c.bench_function("sign 1MB", |b| {
+        b.iter(|| {
+            let sk = SigningKey::<MlDsa65>::decode(&sk_bytes);
+            let _sig = sk.sign_randomized(&m1m, &ctx, &mut rng);
+        })
+    });
+    c.bench_function("sign 100MB", |b| {
+        b.iter(|| {
+            let sk = SigningKey::<MlDsa65>::decode(&sk_bytes);
+            let _sig = sk.sign_randomized(&m100m, &ctx, &mut rng);
         })
     });
 
     // Verifying
-    c.bench_function("verify", |b| {
+    c.bench_function("verify 64", |b| {
         b.iter(|| {
             let vk = VerifyingKey::<MlDsa65>::decode(&vk_bytes);
             let sig = Signature::<MlDsa65>::decode(&sig_bytes).unwrap();
-            let _ver = vk.verify_with_context(&m, &ctx, &sig);
+            let _ver = vk.verify_with_context(&m64, &ctx, &sig);
         })
     });
-
+    /*
     // Round trip
     c.bench_function("round_trip", |b| {
         b.iter(|| {
@@ -58,6 +91,7 @@ fn criterion_benchmark(c: &mut Criterion) {
             let _ver = kp.verifying_key().verify_with_context(&m, &ctx, &sig);
         })
     });
+    */
 }
 
 criterion_group!(benches, criterion_benchmark);
