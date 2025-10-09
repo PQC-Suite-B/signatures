@@ -2,7 +2,7 @@
 
 Documenting running ML-DSA with different hash functions.
 
-## Testig
+## Testing
 
 ```bash
 cargo test --lib crypto
