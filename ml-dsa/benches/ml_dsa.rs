@@ -33,7 +33,7 @@ fn criterion_benchmark(c: &mut Criterion) {
             let kp = MlDsa65::key_gen_internal(&xi);
             let _sk_bytes = kp.signing_key().encode();
             let _vk_bytes = kp.verifying_key().encode();
-        })
+        });
     });
 
     // Signing
@@ -42,21 +42,21 @@ fn criterion_benchmark(c: &mut Criterion) {
         b.iter(|| {
             let sk = SigningKey::<MlDsa65>::decode(&sk_bytes);
             let _sig = sk.sign_randomized(&m64, &ctx, &mut rng);
-        })
+        });
     });
 
     c.bench_function("sign 1MB", |b| {
         b.iter(|| {
             let sk = SigningKey::<MlDsa65>::decode(&sk_bytes);
             let _sig = sk.sign_randomized(&m1m, &ctx, &mut rng);
-        })
+        });
     });
 
     c.bench_function("sign 100MB", |b| {
         b.iter(|| {
             let sk = SigningKey::<MlDsa65>::decode(&sk_bytes);
             let _sig = sk.sign_randomized(&m100m, &ctx, &mut rng);
-        })
+        });
     });
 
     // Verifying
@@ -65,7 +65,7 @@ fn criterion_benchmark(c: &mut Criterion) {
             let vk = VerifyingKey::<MlDsa65>::decode(&vk_bytes);
             let sig = Signature::<MlDsa65>::decode(&sig_bytes).unwrap();
             let _ver = vk.verify_with_context(&m64, &ctx, &sig);
-        })
+        });
     });
 }
 

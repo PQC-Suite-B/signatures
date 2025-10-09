@@ -37,8 +37,8 @@ fn analyze_key_gen_internal() {
 
     // total duration
     let round_trip_duration = round_trip_start.elapsed();
-    println!("Round trip took: {:?}", round_trip_duration);
-    println!("KeyGen took: {:?}", keygen_duration);
-    println!("Sign took: {:?}", sign_duration);
-    println!("Verify took: {:?}", verify_duration);
+    println!("Round trip took: {round_trip_duration:?}");
+    println!("KeyGen took: {keygen_duration:?}");
+    println!("Sign took: {sign_duration:?}");
+    println!("Verify took: {verify_duration:?}");
 }
