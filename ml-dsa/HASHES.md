@@ -22,8 +22,3 @@ cargo test --test round_trip_analysis --features blake3 -- --nocapture
 cargo bench --bench ml_dsa --no-default-features --features shake
 cargo bench --bench ml_dsa --no-default-features --features blake3
 ```
-
-```bash
-cargo bench --bench ml_dsa_warm_v_cold --no-default-features --features shake
-cargo bench --bench ml_dsa_warm_v_cold --no-default-features --features blake3
-```
