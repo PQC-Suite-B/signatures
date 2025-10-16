@@ -1,5 +1,5 @@
 use ml_dsa::*;
-use crate::{SigningKey, VerifyingKey};
+use crate::SigningKey;
 
 use data::ParameterSet;
 use rand::Rng;
@@ -151,7 +151,6 @@ where
 }
 
 mod data {
-    use hybrid_array::Array;
     use serde::{Deserialize, Serialize};
 
     #[derive(Deserialize, Serialize)]

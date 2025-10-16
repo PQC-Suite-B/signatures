@@ -11,7 +11,7 @@ use serde_json;
 // Create vector set
 //  CREATE_VECTOR_SET=1 cargo test --test blake3_sig-ver --no-default-features --features blake3
 #[test]
-pub fn siggen_blake3() {
+pub fn sigver_blake3() {
     if env::var("CREATE_VECTOR_SET").is_ok() {
         sigver_create_vector_set();
     } else {
@@ -281,10 +281,10 @@ mod data {
                                        sig: Signature<P>)
     -> TestCase {
         let encoded_sig = sig.encode();
-        let (c_tilde, mut z, h) = P::split_sig(&encoded_sig);
+        let (c_tilde, z, h) = P::split_sig(&encoded_sig);
 
         let mut z_mut = z.clone();
-        let mut z_slice = z_mut.as_mut_slice();
+        let z_slice = z_mut.as_mut_slice();
 
         let z_len = z_slice.len();
         let start = z_len / 2 - idx;
