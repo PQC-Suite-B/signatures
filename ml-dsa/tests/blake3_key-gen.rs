@@ -86,7 +86,7 @@ fn keygen_create_vector_set() {
         tg_id += 1;
     }
     let json = serde_json::to_string_pretty(&vs).expect("failed to serialize json");
-    let mut file = File::create("tests/blake3_keygen_tvs.json").expect("could not create file");
+    let mut file = File::create("tests/blake3_key-gen.json").expect("could not create file");
     file.write_all(json.as_bytes()).expect("failed to write into file");
 }
 
