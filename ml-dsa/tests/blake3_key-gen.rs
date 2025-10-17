@@ -8,7 +8,7 @@ use std::{fs::{read_to_string, File}, io::Write, path::PathBuf};
 use serde_json;
 use hybrid_array::Array;
 
-// Verfiy vector set:
+// Verify vector set:
 //  cargo test --test blake3_key-gen --no-default-features --features blake3
 // Create vector set
 //  CREATE_VECTOR_SET=1 cargo test --test blake3_key-gen --no-default-features --features blake3
@@ -146,13 +146,13 @@ mod data {
     
     #[derive(Deserialize, Serialize, Copy, Clone)]
     pub enum ParameterSet {
-        #[serde(rename = "ML-DSA-B-44")]
+        #[serde(rename = "ML-DSA-B-44", alias = "ML-DSA-44")]
         MlDsa44,
     
-        #[serde(rename = "ML-DSA-B-65")]
+        #[serde(rename = "ML-DSA-B-65", alias = "ML-DSA-65")]
         MlDsa65,
     
-        #[serde(rename = "ML-DSA-B-87")]
+        #[serde(rename = "ML-DSA-B-87", alias = "ML-DSA-87")]
         MlDsa87,
     }
     

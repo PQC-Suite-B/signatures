@@ -6,7 +6,7 @@ use std::env;
 use std::{fs::{read_to_string, File}, io::Write, path::PathBuf};
 use serde_json;
 
-// Verfiy vector set:
+// Verify vector set:
 //  cargo test --test blake3_sig-ver --no-default-features --features blake3
 // Create vector set
 //  CREATE_VECTOR_SET=1 cargo test --test blake3_sig-ver --no-default-features --features blake3
@@ -287,7 +287,7 @@ mod data {
         let z_slice = z_mut.as_mut_slice();
 
         let z_len = z_slice.len();
-        let start = z_len / 2 - idx;
+        let start = (z_len / 2).saturating_sub(idx);
         for i in start..min(z_len, start + 6) {
             z_slice[i] ^= 0xFF;
         }
