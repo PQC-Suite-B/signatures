@@ -2,7 +2,7 @@ use crate::address::{ForsTree, WotsHash};
 use crate::signature_encoding::Signature;
 use crate::util::split_digest;
 use crate::verifying_key::VerifyingKey;
-use crate::{ParameterSet, PkSeed, Sha2L1, Sha2L35, Shake, VerifyingKeyLen};
+use crate::{Blake3, ParameterSet, PkSeed, Sha2L1, Sha2L35, Shake, VerifyingKeyLen};
 use ::signature::{
     Error, KeypairRef, MultipartSigner, RandomizedMultipartSigner, RandomizedSigner, Signer,
     rand_core::{CryptoRng, TryCryptoRng},
@@ -333,6 +333,16 @@ impl<M> SigningKeyLen for Shake<U24, M> {
     type SkLen = U<{ 4 * 24 }>;
 }
 impl<M> SigningKeyLen for Shake<U32, M> {
+    type SkLen = U<{ 4 * 32 }>;
+}
+
+impl<M> SigningKeyLen for Blake3<U16, M> {
+    type SkLen = U<{ 4 * 16 }>;
+}
+impl<M> SigningKeyLen for Blake3<U24, M> {
+    type SkLen = U<{ 4 * 24 }>;
+}
+impl<M> SigningKeyLen for Blake3<U32, M> {
     type SkLen = U<{ 4 * 32 }>;
 }
 
