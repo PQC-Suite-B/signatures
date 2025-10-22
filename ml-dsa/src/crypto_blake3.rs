@@ -206,7 +206,7 @@ impl Blake3StateG {
 impl Default for Blake3StateH {
     fn default() -> Self {
         Blake3StateH(Blake3State::Absorbing {
-            hasher: Hasher::new_derive_key("ML-DSA-B-G"),
+            hasher: Hasher::new_derive_key("ML-DSA-B-H"),
             buf: Vec::with_capacity(1024),
         })
     }
