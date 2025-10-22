@@ -100,7 +100,6 @@ fn create_test_case<P: ParameterSet, const SEED_LEN: usize>(tg: &mut TestGroup) 
         let sk = SigningKey::<P>::slh_keygen_internal(&sk_seed,
                                                       &sk_prf,
                                                       &pk_seed);
-        println!("key!!");
         let pk = sk.verifying_key();
 
         let tc = TestCase {
