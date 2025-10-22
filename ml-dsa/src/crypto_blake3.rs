@@ -171,12 +171,73 @@ impl Blake3State {
     }
 }
 
+pub struct Blake3StateG(Blake3State);
+pub struct Blake3StateH(Blake3State);
+
+impl Default for Blake3StateG {
+    fn default() -> Self {
+        Blake3StateG(Blake3State::Absorbing {
+            hasher: Hasher::new_derive_key("ML-DSA-B-G"),
+            buf: Vec::with_capacity(1024),
+        })
+    }
+}
+
+impl Blake3StateG {
+    #[allow(dead_code)]
+    pub fn absorb(mut self, input: &[u8]) -> Self {
+        self.0 = self.0.absorb(input);
+        self
+    }
+
+    #[allow(dead_code)]
+    pub fn squeeze(&mut self, out: &mut [u8]) -> &mut Self {
+        self.0.squeeze(out);
+        self
+    }
+
+    #[allow(dead_code)]
+    pub fn squeeze_new<N: ArraySize>(&mut self) -> Array<u8, N> {
+        let v = self.0.squeeze_new();
+        v
+    }
+}
+
+impl Default for Blake3StateH {
+    fn default() -> Self {
+        Blake3StateH(Blake3State::Absorbing {
+            hasher: Hasher::new_derive_key("ML-DSA-B-G"),
+            buf: Vec::with_capacity(1024),
+        })
+    }
+}
+
+impl Blake3StateH {
+    #[allow(dead_code)]
+    pub fn absorb(mut self, input: &[u8]) -> Self {
+        self.0 = self.0.absorb(input);
+        self
+    }
+
+    #[allow(dead_code)]
+    pub fn squeeze(&mut self, out: &mut [u8]) -> &mut Self {
+        self.0.squeeze(out);
+        self
+    }
+
+    #[allow(dead_code)]
+    pub fn squeeze_new<N: ArraySize>(&mut self) -> Array<u8, N> {
+        let v = self.0.squeeze_new();
+        v
+    }
+}
+
 #[allow(dead_code)] // removing compiler warnings given feature flags
 /// BLAKE3 hash state for G function
-pub type G = Blake3State;
+pub type G = Blake3StateG;
 #[allow(dead_code)] // removing compiler warnings given feature flags
 /// BLAKE3 hash state for H function
-pub type H = Blake3State;
+pub type H = Blake3StateH;
 
 #[cfg(test)]
 mod test {
