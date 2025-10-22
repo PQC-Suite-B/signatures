@@ -304,7 +304,7 @@ fn sig_too_small(idx: usize, sk: Vec<u8>, pk: Vec<u8>, rng: Vec<u8>,
 fn sig_too_large(idx: usize, sk: Vec<u8>, pk: Vec<u8>, rng: Vec<u8>, 
                  msg_len: usize, msg: Vec<u8>, mut sig: Vec<u8>) 
 -> TestCase {
-    sig.push(sig.last().unwrap().clone());
+    sig.push(*sig.last().unwrap());
     TestCase { 
         id: idx,
         testPassed: false,

@@ -97,7 +97,6 @@ fn get_messages() -> VecDeque<Vec<u8>> {
     let mut p = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     p.push("tests/sig-gen.json");
     let vs_json = read_to_string(p.as_path()).unwrap();
-    println!("{:?}", vs_json);
     let vs: data::VectorSet = serde_json::from_str(&vs_json).unwrap();
 
     let mut messages: VecDeque<Vec<u8>> = VecDeque::new();
