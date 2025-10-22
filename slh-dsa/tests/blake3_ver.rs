@@ -247,7 +247,8 @@ fn sig_ht_modified(idx: usize, sk: Vec<u8>, pk: Vec<u8>, rng: Vec<u8>,
     let mut sig_ht_vec = sig_ht.to_vec();
     sig_ht_vec[idx] = 0x0;
     sig_ht_vec[idx*3] = 0x0;
-    new_sig.to_vec().append(&mut sig_ht_vec);
+    let mut res = new_sig.to_vec();
+    res.append(&mut sig_ht_vec);
 
     TestCase { 
         id: idx,
@@ -258,7 +259,7 @@ fn sig_ht_modified(idx: usize, sk: Vec<u8>, pk: Vec<u8>, rng: Vec<u8>,
         additionalRandomness: rng,
         messageLength: msg_len,
         message: msg,
-        signature: new_sig.to_vec(),
+        signature: res,
         reason: String::from("modified signature - SIGHT modified")
     }
 }

@@ -73,7 +73,7 @@ fn create_vector_set() {
         let mut tg_det = TestGroup {
             id: i,
             parameterSet: *param,
-            determinitic: true,
+            deterministic: true,
             tests: vec![]
         };
         match_p(&mut tg_det, param.clone());
@@ -83,7 +83,7 @@ fn create_vector_set() {
         let mut tg_not_det = TestGroup {
             id: i,
             parameterSet: *param,
-            determinitic: false,
+            deterministic: false,
             tests: vec![]
         };
         match_p(&mut tg_not_det, param.clone());
@@ -115,7 +115,7 @@ fn create_test_case<P: ParameterSet, const SEED_LEN: usize>(tg: &mut TestGroup) 
         let mut rng = [0u8; SEED_LEN];
         let mut msg = vec![0u8; msg_len];
         let opt_rng;
-        if !tg.determinitic {
+        if !tg.deterministic {
             rand::fill(&mut rng);
             opt_rng = Some(rng.as_slice());
         } else {
@@ -130,7 +130,7 @@ fn create_test_case<P: ParameterSet, const SEED_LEN: usize>(tg: &mut TestGroup) 
             id: i,
             deferred: false,
             sk: sk.to_vec(),
-            additionalRandomness: if tg.determinitic {Vec::new()} else {rng.to_vec()},
+            additionalRandomness: if tg.deterministic {Vec::new()} else {rng.to_vec()},
             messageLength: msg_len * 8,
             message: msg,
             signature: sig.to_vec()
@@ -162,7 +162,7 @@ struct TestGroup {
     #[serde(rename = "tgId")]
     id: usize,
     parameterSet: ParamSet,
-    determinitic: bool,
+    deterministic: bool,
     tests: Vec<TestCase>,
 }
 
