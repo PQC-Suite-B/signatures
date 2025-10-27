@@ -248,8 +248,8 @@ mod test {
     #[test]
     fn g() {
         let input = b"hello world";
-        let expected1 = hex!("d74981efa70a0c880b8d8c1985d075dbcbf679b99a5f9914e5aaf96b831a9e24");
-        let expected2 = hex!("a020ed55aed9a6ab2eaf3fd70d2c98c949e142d8f42a10250190b699e02cf9eb");
+        let expected1 = hex!("7b81750d951e3c66085d459b69db12076db380eaf1e8b484d1f20139a7043ef8");
+        let expected2 = hex!("75369b21aa54f22c9497bc233ef94138f372f94e8bb6f7eca4a9c0b36e111fa7");
 
         let mut g = G::default().absorb(input);
 
@@ -264,8 +264,8 @@ mod test {
     #[test]
     fn h() {
         let input = b"hello world";
-        let expected1 = hex!("d74981efa70a0c880b8d8c1985d075dbcbf679b99a5f9914e5aaf96b831a9e24");
-        let expected2 = hex!("a020ed55aed9a6ab2eaf3fd70d2c98c949e142d8f42a10250190b699e02cf9eb");
+        let expected1 = hex!("064033d1d12df7bd1ff05aa000185f0c6aab84d36996d1dcdf1bc5aa13e76d48");
+        let expected2 = hex!("32ebb1ba0ff31dc7cdc238ff123637ee875075a4cc09aa362c8da112cdb8299c");
 
         let mut h = H::default().absorb(input);
 
