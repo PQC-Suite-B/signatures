@@ -1,3 +1,4 @@
+use crate::Blake3;
 use crate::ParameterSet;
 use crate::Sha2L1;
 use crate::Sha2L35;
@@ -215,7 +216,6 @@ impl<P: ParameterSet> TryFrom<pkcs8::SubjectPublicKeyInfoRef<'_>> for VerifyingK
 impl<M> VerifyingKeyLen for Sha2L1<U16, M> {
     type VkLen = U<32>;
 }
-
 impl<M> VerifyingKeyLen for Sha2L35<U24, M> {
     type VkLen = U<48>;
 }
@@ -230,6 +230,16 @@ impl<M> VerifyingKeyLen for Shake<U24, M> {
     type VkLen = U<48>;
 }
 impl<M> VerifyingKeyLen for Shake<U32, M> {
+    type VkLen = U<64>;
+}
+
+impl<M> VerifyingKeyLen for Blake3<U16, M> {
+    type VkLen = U<32>;
+}
+impl<M> VerifyingKeyLen for Blake3<U24, M> {
+    type VkLen = U<48>;
+}
+impl<M> VerifyingKeyLen for Blake3<U32, M> {
     type VkLen = U<64>;
 }
 

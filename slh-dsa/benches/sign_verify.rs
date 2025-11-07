@@ -28,20 +28,40 @@ pub fn verify_benchmark<P: ParameterSet>(c: &mut Criterion) {
     });
 }
 
+// criterion_group!(name = sign_benches;
+//     config = Criterion::default().sample_size(10);
+//     targets = sign_benchmark<Shake128s>, sign_benchmark<Shake192s>, sign_benchmark<Shake256s>,
+//               sign_benchmark<Shake128f>, sign_benchmark<Shake192f>, sign_benchmark<Shake256f>,
+//               sign_benchmark<Sha2_128s>, sign_benchmark<Sha2_192s>, sign_benchmark<Sha2_256s>,
+//               sign_benchmark<Sha2_128f>, sign_benchmark<Sha2_192f>, sign_benchmark<Sha2_256f>,
+// );
+
+// criterion_group!(name = verify_benches;
+//     config = Criterion::default().sample_size(10);
+//     targets = verify_benchmark<Shake128s>, verify_benchmark<Shake192s>, verify_benchmark<Shake256s>,
+//               verify_benchmark<Shake128f>, verify_benchmark<Shake192f>, verify_benchmark<Shake256f>,
+//               verify_benchmark<Sha2_128s>, verify_benchmark<Sha2_192s>, verify_benchmark<Sha2_256s>,
+//               verify_benchmark<Sha2_128f>, verify_benchmark<Sha2_192f>, verify_benchmark<Sha2_256f>,
+// );
+//
 criterion_group!(name = sign_benches;
     config = Criterion::default().sample_size(10);
-    targets = sign_benchmark<Shake128s>, sign_benchmark<Shake192s>, sign_benchmark<Shake256s>,
-              sign_benchmark<Shake128f>, sign_benchmark<Shake192f>, sign_benchmark<Shake256f>,
-              sign_benchmark<Sha2_128s>, sign_benchmark<Sha2_192s>, sign_benchmark<Sha2_256s>,
-              sign_benchmark<Sha2_128f>, sign_benchmark<Sha2_192f>, sign_benchmark<Sha2_256f>,
+    targets = sign_benchmark<Shake128s>,
+              sign_benchmark<Sha2_128s>,
+              sign_benchmark<Blake3_128s>,
+              sign_benchmark<Shake128f>,
+              sign_benchmark<Sha2_128f>,
+              sign_benchmark<Blake3_128f>,
 );
 
 criterion_group!(name = verify_benches;
     config = Criterion::default().sample_size(10);
-    targets = verify_benchmark<Shake128s>, verify_benchmark<Shake192s>, verify_benchmark<Shake256s>,
-              verify_benchmark<Shake128f>, verify_benchmark<Shake192f>, verify_benchmark<Shake256f>,
-              verify_benchmark<Sha2_128s>, verify_benchmark<Sha2_192s>, verify_benchmark<Sha2_256s>,
-              verify_benchmark<Sha2_128f>, verify_benchmark<Sha2_192f>, verify_benchmark<Sha2_256f>,
+    targets = verify_benchmark<Shake128s>,
+              verify_benchmark<Sha2_128s>,
+              verify_benchmark<Blake3_128s>,
+              verify_benchmark<Shake128f>,
+              verify_benchmark<Sha2_128f>,
+              verify_benchmark<Blake3_128f>,
 );
 
 criterion_main!(sign_benches, verify_benches);

@@ -1203,6 +1203,7 @@ name = "slh-dsa"
 version = "0.2.0-pre"
 dependencies = [
  "aes",
+ "blake3",
  "cipher",
  "const-oid",
  "criterion",

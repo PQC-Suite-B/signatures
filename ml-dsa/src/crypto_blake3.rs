@@ -171,12 +171,73 @@ impl Blake3State {
     }
 }
 
+pub struct Blake3StateG(Blake3State);
+pub struct Blake3StateH(Blake3State);
+
+impl Default for Blake3StateG {
+    fn default() -> Self {
+        Blake3StateG(Blake3State::Absorbing {
+            hasher: Hasher::new_derive_key("ML-DSA-B-G"),
+            buf: Vec::with_capacity(1024),
+        })
+    }
+}
+
+impl Blake3StateG {
+    #[allow(dead_code)]
+    pub fn absorb(mut self, input: &[u8]) -> Self {
+        self.0 = self.0.absorb(input);
+        self
+    }
+
+    #[allow(dead_code)]
+    pub fn squeeze(&mut self, out: &mut [u8]) -> &mut Self {
+        self.0.squeeze(out);
+        self
+    }
+
+    #[allow(dead_code)]
+    pub fn squeeze_new<N: ArraySize>(&mut self) -> Array<u8, N> {
+        let v = self.0.squeeze_new();
+        v
+    }
+}
+
+impl Default for Blake3StateH {
+    fn default() -> Self {
+        Blake3StateH(Blake3State::Absorbing {
+            hasher: Hasher::new_derive_key("ML-DSA-B-H"),
+            buf: Vec::with_capacity(1024),
+        })
+    }
+}
+
+impl Blake3StateH {
+    #[allow(dead_code)]
+    pub fn absorb(mut self, input: &[u8]) -> Self {
+        self.0 = self.0.absorb(input);
+        self
+    }
+
+    #[allow(dead_code)]
+    pub fn squeeze(&mut self, out: &mut [u8]) -> &mut Self {
+        self.0.squeeze(out);
+        self
+    }
+
+    #[allow(dead_code)]
+    pub fn squeeze_new<N: ArraySize>(&mut self) -> Array<u8, N> {
+        let v = self.0.squeeze_new();
+        v
+    }
+}
+
 #[allow(dead_code)] // removing compiler warnings given feature flags
 /// BLAKE3 hash state for G function
-pub type G = Blake3State;
+pub type G = Blake3StateG;
 #[allow(dead_code)] // removing compiler warnings given feature flags
 /// BLAKE3 hash state for H function
-pub type H = Blake3State;
+pub type H = Blake3StateH;
 
 #[cfg(test)]
 mod test {
@@ -187,8 +248,8 @@ mod test {
     #[test]
     fn g() {
         let input = b"hello world";
-        let expected1 = hex!("d74981efa70a0c880b8d8c1985d075dbcbf679b99a5f9914e5aaf96b831a9e24");
-        let expected2 = hex!("a020ed55aed9a6ab2eaf3fd70d2c98c949e142d8f42a10250190b699e02cf9eb");
+        let expected1 = hex!("7b81750d951e3c66085d459b69db12076db380eaf1e8b484d1f20139a7043ef8");
+        let expected2 = hex!("75369b21aa54f22c9497bc233ef94138f372f94e8bb6f7eca4a9c0b36e111fa7");
 
         let mut g = G::default().absorb(input);
 
@@ -203,8 +264,8 @@ mod test {
     #[test]
     fn h() {
         let input = b"hello world";
-        let expected1 = hex!("d74981efa70a0c880b8d8c1985d075dbcbf679b99a5f9914e5aaf96b831a9e24");
-        let expected2 = hex!("a020ed55aed9a6ab2eaf3fd70d2c98c949e142d8f42a10250190b699e02cf9eb");
+        let expected1 = hex!("064033d1d12df7bd1ff05aa000185f0c6aab84d36996d1dcdf1bc5aa13e76d48");
+        let expected2 = hex!("32ebb1ba0ff31dc7cdc238ff123637ee875075a4cc09aa362c8da112cdb8299c");
 
         let mut h = H::default().absorb(input);
 

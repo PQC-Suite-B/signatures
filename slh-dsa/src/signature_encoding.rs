@@ -1,7 +1,8 @@
 use crate::ParameterSet;
 use crate::hashes::{
-    Sha2_128f, Sha2_128s, Sha2_192f, Sha2_192s, Sha2_256f, Sha2_256s, Shake128f, Shake192f,
-    Shake192s, Shake256f, Shake256s,
+    Blake3_128f, Blake3_128s, Blake3_192f, Blake3_192s, Blake3_256f, Blake3_256s, Sha2_128f,
+    Sha2_128s, Sha2_192f, Sha2_192s, Sha2_256f, Sha2_256s, Shake128f, Shake192f, Shake192s,
+    Shake256f, Shake256s,
 };
 use crate::hypertree::HypertreeSig;
 use crate::{Shake128s, fors::ForsSignature};
@@ -150,6 +151,30 @@ impl SignatureLen for Shake256s {
 }
 
 impl SignatureLen for Shake256f {
+    type SigLen = U49856;
+}
+
+impl SignatureLen for Blake3_128s {
+    type SigLen = U7856;
+}
+
+impl SignatureLen for Blake3_128f {
+    type SigLen = U17088;
+}
+
+impl SignatureLen for Blake3_192s {
+    type SigLen = U16224;
+}
+
+impl SignatureLen for Blake3_192f {
+    type SigLen = U35664;
+}
+
+impl SignatureLen for Blake3_256s {
+    type SigLen = U29792;
+}
+
+impl SignatureLen for Blake3_256f {
     type SigLen = U49856;
 }
 

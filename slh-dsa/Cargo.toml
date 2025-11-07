@@ -28,6 +28,7 @@ digest = "0.11.0-rc.0"
 pkcs8 = { version = "0.11.0-rc.6", default-features = false }
 const-oid = { version = "0.10", features = ["db"] }
 zeroize = { version = "1.8.1", optional = true, default-features = false }
+blake3 = { version = "1.8.2", features = ["rayon"] }
 
 [dev-dependencies]
 hex-literal = "1"
@@ -52,6 +53,10 @@ bench = false
 
 [[bench]]
 name = "sign_verify"
+harness = false
+
+[[bench]]
+name = "sign_large_msg"
 harness = false
 
 [features]
