@@ -2,27 +2,27 @@ use criterion::{Criterion, black_box, criterion_group, criterion_main};
 use signature::{Keypair, Signer, Verifier};
 use slh_dsa::*;
 
-pub fn sign_benchmark<P: ParameterSet>(c: &mut Criterion) {
-    let mut rng = rand::rng();
-    let sk = SigningKey::<P>::new(&mut rng);
-    c.bench_function(&format!("sign: {}", P::NAME), |b| {
-        b.iter(|| {
-            let msg = b"Hello, world!";
-            let sig = sk.try_sign(msg).unwrap();
-            black_box(sig)
-        })
-    });
-}
+// pub fn sign_benchmark<P: ParameterSet>(c: &mut Criterion) {
+//     let mut rng = rand::rng();
+//     let sk = SigningKey::<P>::new(&mut rng);
+//     c.bench_function(&format!("sign: {}", P::NAME), |b| {
+//         b.iter(|| {
+//             let msg = b"Hello, world!";
+//             let sig = sk.try_sign(msg).unwrap();
+//             black_box(sig)
+//         })
+//     });
+// }
 
 pub fn verify_benchmark<P: ParameterSet>(c: &mut Criterion) {
     let mut rng = rand::rng();
     let sk = SigningKey::<P>::new(&mut rng);
-    let msg = b"Hello, world!";
-    let sig = sk.try_sign(msg).unwrap();
+    let msg = vec![0u8; 64];
+    let sig = sk.try_sign(&msg).unwrap();
     let vk = sk.verifying_key();
     c.bench_function(&format!("verify: {}", P::NAME), |b| {
         b.iter(|| {
-            let ok = vk.verify(msg, &sig);
+            let ok = vk.verify(&msg, &sig);
             black_box(ok)
         })
     });
@@ -44,15 +44,15 @@ pub fn verify_benchmark<P: ParameterSet>(c: &mut Criterion) {
 //               verify_benchmark<Sha2_128f>, verify_benchmark<Sha2_192f>, verify_benchmark<Sha2_256f>,
 // );
 //
-criterion_group!(name = sign_benches;
-    config = Criterion::default().sample_size(10);
-    targets = sign_benchmark<Shake128s>,
-              sign_benchmark<Sha2_128s>,
-              sign_benchmark<Blake3_128s>,
-              sign_benchmark<Shake128f>,
-              sign_benchmark<Sha2_128f>,
-              sign_benchmark<Blake3_128f>,
-);
+// criterion_group!(name = sign_benches;
+//     config = Criterion::default().sample_size(10);
+//     targets = sign_benchmark<Shake128s>,
+//               sign_benchmark<Sha2_128s>,
+//               sign_benchmark<Blake3_128s>,
+//               sign_benchmark<Shake128f>,
+//               sign_benchmark<Sha2_128f>,
+//               sign_benchmark<Blake3_128f>,
+// );
 
 criterion_group!(name = verify_benches;
     config = Criterion::default().sample_size(10);
@@ -64,4 +64,5 @@ criterion_group!(name = verify_benches;
               verify_benchmark<Blake3_128f>,
 );
 
-criterion_main!(sign_benches, verify_benches);
+// criterion_main!(sign_benches, verify_benches);
+criterion_main!(verify_benches);

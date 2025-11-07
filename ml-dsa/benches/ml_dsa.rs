@@ -27,14 +27,14 @@ fn criterion_benchmark(c: &mut Criterion) {
     let vk_bytes = vk.encode();
     let sig_bytes = sig.encode();
 
-    // Key generation
-    c.bench_function("keygen", |b| {
-        b.iter(|| {
-            let kp = MlDsa65::key_gen_internal(&xi);
-            let _sk_bytes = kp.signing_key().encode();
-            let _vk_bytes = kp.verifying_key().encode();
-        });
-    });
+    // // Key generation
+    // c.bench_function("keygen", |b| {
+    //     b.iter(|| {
+    //         let kp = MlDsa65::key_gen_internal(&xi);
+    //         let _sk_bytes = kp.signing_key().encode();
+    //         let _vk_bytes = kp.verifying_key().encode();
+    //     });
+    // });
 
     // Signing
 
